@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Make a sprite from an image</title>
+</head>
+<body style="background-color:white">
+<script src="./pixi/pixi.min.js"></script>
+<script>
+  let imgWidth = 260;
+  let imgHeight = 195;
+  let app = new PIXI.Application({
+    width: window.innerWidth, 
+    height: window.innerHeight,
+    antialias: true, 
+    transparent: true, 
+    resolution: 1
+  });
+
+  document.body.appendChild(app.view);
+  let img = new PIXI.Sprite.from("./images/toop.jpg");
+  img.width = imgWidth;//window.innerWidth;
+  img.height = imgHeight;//window.innerHeight;
+  app.stage.addChild(img);
+  depthMap = new PIXI.Sprite.from("./images/toop_depth.jpg");
+  app.stage.addChild(depthMap);
+  displacementFilter = new PIXI.filters.DisplacementFilter(depthMap);
+  app.stage.filters = [displacementFilter];
+  window.onmousemove = function(e) {
+  displacementFilter.scale.x = (imgWidth - e.clientX)/10;
+  displacementFilter.scale.y = (imgHeight- e.clientY)/10;
+  };
+</script>
+</body>
+</html>
